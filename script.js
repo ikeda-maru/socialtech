@@ -29,6 +29,30 @@ $(function () {
 
     // 入力チェックをした結果、エラーがあるかないか判定
     let result = inputCheck();
+
+    // エラー判定とメッセージを取得
+    let error   = result.error;
+    let message = result.message;
+
+    // エラーがなかったらフォームを送信する
+    if (error == false) {
+      // Ajaxでformを送信する
+      $.ajax({
+        url: 'https://api.staticforms.xyz/submit',
+        type: 'POST',
+        dataType: 'json',
+        data: $('#form').serialize(),
+        success: function (result) {
+          alert('お問い合わせを送信しました。')
+        },
+        error: function (xhr, resp, text) {
+          alert('お問い合わせを送信できませんでした。')
+        }
+      })
+    } else {
+      // エラーメッセージを表示する
+      alert(message);
+    }
   });
 
   // フォーカスが外れたとき(blur)にフォームの入力チェックをする
